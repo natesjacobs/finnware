@@ -64,15 +64,23 @@ Engine.run(engine);
 Render.run(render);
 
 // Listen for keydown events
+let canPressUp = true; // Flag to control the up arrow key press
 document.addEventListener('keydown', function(event) {
-    if (event.code === 'ArrowUp') {
-        // Apply an upward force to the triangle, tripled
+    if (event.code === 'ArrowUp' && canPressUp) {
+        // Apply an upward force to the triangle
         Body.applyForce(triangle, triangle.position, { x: 0, y: -0.03 * triangle.mass });
+        
+        canPressUp = false; // Prevent further presses
+        
+        // Allow pressing again after 0.5 seconds
+        setTimeout(() => {
+            canPressUp = true;
+        }, 500); // 500 milliseconds = 0.5 seconds
     } else if (event.code === 'ArrowLeft') {
-        // Apply a leftward force to the triangle, tripled
+        // Apply a leftward force to the triangle
         Body.applyForce(triangle, triangle.position, { x: -0.03 * triangle.mass, y: 0 });
     } else if (event.code === 'ArrowRight') {
-        // Apply a rightward force to the triangle, tripled
+        // Apply a rightward force to the triangle
         Body.applyForce(triangle, triangle.position, { x: 0.03 * triangle.mass, y: 0 });
     }
 });
